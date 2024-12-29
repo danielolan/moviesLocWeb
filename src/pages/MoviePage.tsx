@@ -5,13 +5,16 @@ import "../styles/MoviePage.css";
 import { MainLayout } from "../layouts/MainLayout";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
+import { Movie } from "../interfaces/Movie";
+const ITEMS_PER_SCROLL = 3;
+const ITEM_WIDTH = 192;
 
 const MoviePage: React.FC = () => {
   const { genres, fetchGenres, moviesByGenre, fetchMoviesByGenre, searchMovies } =
     useMovies();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<Movie[]>([]);
 
   useEffect(() => {
     fetchGenres();
@@ -109,6 +112,24 @@ const MoviePage: React.FC = () => {
               <section key={genre.id} className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">{genre.name}</h2>
                 <div className="relative">
+                  {/* Botón Izquierdo */}
+                  <button
+                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full z-10"
+                    onClick={() => {
+                      const container = document.getElementById(
+                        `carousel-${genre.id}`
+                      );
+                      const scrollAmount = ITEM_WIDTH * ITEMS_PER_SCROLL;
+                      container?.scrollBy({
+                        left: -scrollAmount,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    ◀
+                  </button>
+
+                  {/* Carrusel */}
                   <div
                     id={`carousel-${genre.id}`}
                     className="flex space-x-4 overflow-x-auto custom-scrollbar scroll-smooth px-8"
@@ -127,6 +148,23 @@ const MoviePage: React.FC = () => {
                       </div>
                     ))}
                   </div>
+
+                  {/* Botón Derecho */}
+                  <button
+                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full z-10"
+                    onClick={() => {
+                      const container = document.getElementById(
+                        `carousel-${genre.id}`
+                      );
+                      const scrollAmount = ITEM_WIDTH * ITEMS_PER_SCROLL;
+                      container?.scrollBy({
+                        left: scrollAmount,
+                        behavior: "smooth",
+                      });
+                    }}
+                  >
+                    ▶
+                  </button>
                 </div>
               </section>
             ))

@@ -3,7 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import MoviePage from './pages/MoviePage';
-import NavBar from './components/Navbar/Navbar';
+
 import { MovieProvider } from './context/MovieContext';
 import MovieDetailsPage from './pages/MovieDetailsPage';
 import FavoritesPage from './pages/FavoritePage';

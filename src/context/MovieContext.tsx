@@ -1,21 +1,12 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-
-// Tipos
-interface Movie {
-  id: number;
-  title: string;
-  overview: string;
-  poster_path: string;
-  vote_average?: number;
-  original_language?: string;
-  adult?: boolean;
-}
+import { Movie } from '../interfaces/Movie';
 
 interface Genre {
   id: number;
   name: string;
 }
 
+// MovieContext.tsx
 interface MovieContextProps {
   movies: Movie[];
   favorites: Movie[];
@@ -25,9 +16,12 @@ interface MovieContextProps {
   fetchGenres: () => Promise<void>;
   fetchMoviesByGenre: (genreId: number) => Promise<void>;
   toggleFavorite: (movie: Movie) => void;
-  searchMovies: (query: string) => Promise<Movie[]>; 
-
+  searchMovies: (query: string) => Promise<Movie[]>;
+  openModal: (videoUrl: string) => void; // Agregado
+  closeModal: () => void; // Agregado
+  modalVideoUrl: string | null; // Agregado
 }
+
 
 // Contexto
 const MovieContext = createContext<MovieContextProps | undefined>(undefined);
@@ -37,7 +31,10 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [favorites, setFavorites] = useState<Movie[]>([]);
   const [genres, setGenres] = useState<Genre[]>([]);
   const [moviesByGenre, setMoviesByGenre] = useState<{ [key: number]: Movie[] }>({});
+  const [modalVideoUrl, setModalVideoUrl] = useState<string | null>(null); // Estado del modal
 
+  const openModal = (videoUrl: string) => setModalVideoUrl(videoUrl);
+  const closeModal = () => setModalVideoUrl(null);
   // Cargar favoritos desde Local Storage
   useEffect(() => {
     const savedFavorites = localStorage.getItem('favorites');
@@ -152,7 +149,11 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         fetchGenres,
         fetchMoviesByGenre,
         toggleFavorite,
-        searchMovies
+        searchMovies,
+        openModal,
+        closeModal,
+        modalVideoUrl,
+        
       }}
     >
       {children}

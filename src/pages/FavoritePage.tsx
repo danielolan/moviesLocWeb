@@ -43,23 +43,7 @@ const FavoritePage: React.FC = () => {
                   language={movie.original_language?.toUpperCase() || 'N/A'}
                   format={movie.adult ? '18+' : 'PG'}
                 />
-                {/* Hover Effect */}
-                <div className="absolute inset-0 bg-black bg-opacity-75 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg">
-                  <button
-                    onClick={() => (window.location.href = `/movies/${movie.id}`)}
-                    className="bg-yellow-500 text-black px-4 py-2 rounded-full mb-2 hover:bg-yellow-400 transition"
-                  >
-                    View Details
-                  </button>
-                  <button
-                    onClick={() => {
-                      alert('Remove favorite functionality pending!');
-                    }}
-                    className="border border-yellow-500 text-yellow-500 px-4 py-2 rounded-full hover:bg-yellow-500 hover:text-black transition"
-                  >
-                    Remove from Favorites
-                  </button>
-                </div>
+          
               </div>
             ))}
           </div>

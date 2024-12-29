@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import { useMovies } from "../context/MovieContext";
-interface MovieDetails {
+import { Movie } from "../interfaces/Movie";
+interface MovieDetails extends Movie {
+    id: number;
     title: string;
     overview: string;
     backdrop_path: string;
@@ -16,6 +18,13 @@ interface MovieDetails {
     production_companies: { name: string; logo_path: string | null }[];
     revenue: number;
     budget: number;
+    adult: boolean;
+    genre_ids: number[];
+    original_language: string;
+    original_title: string;
+    popularity: number;
+    video: boolean;
+    vote_count: number;
 }
 
 const MovieDetailsPage: React.FC = () => {

@@ -1,25 +1,9 @@
 import React from 'react';
 import MovieCarousel from './MovieCarousel';
-
+import { Movie } from '../../interfaces/Movie';
 interface NewReleasesProps {
-    movies: {
-        adult: boolean;
-        backdrop_path: string;
-        genre_ids: number[];
-        id: number;
-        original_language: string;
-        original_title: string;
-        overview: string;
-        popularity: number;
-        poster_path: string;
-        release_date: string;
-        title: string;
-        video: boolean;
-        vote_average: number;
-        vote_count: number;
-    }[];
+  movies: Movie[];
 }
-
 const NewReleases: React.FC<NewReleasesProps> = ({ movies }) => {
   return (
     <div className="py-12 px-6">
