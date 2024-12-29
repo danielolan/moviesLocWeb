@@ -30,7 +30,7 @@ interface MovieDetails extends Movie {
 const MovieDetailsPage: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [movieDetails, setMovieDetails] = useState<MovieDetails | null>(null);
-    const { favorites, toggleFavorite } = useMovies(); // Importamos favoritos y el método para manejarlos
+    const { favorites, toggleFavorite,openModal } = useMovies(); // Importamos favoritos y el método para manejarlos
 
     console.log(movieDetails)
     useEffect(() => {
@@ -126,6 +126,13 @@ const MovieDetailsPage: React.FC = () => {
                                         } text-white px-6 py-2 rounded hover:bg-yellow-400 transition`}
                                 >
                                     {favorites.some((fav) => fav.id === movieDetails.id) ? 'Remove from Favorites' : 'Add to Favorites'}
+                                </button>
+                                <button
+                                    onClick={() => openModal("https://www.youtube.com/embed/dQw4w9WgXcQ")}
+                                    className="bg-yellow-500 text-black px-6 py-2 rounded hover:bg-yellow-400 transition"
+
+                                >
+                                 Watch Movie
                                 </button>
                             </div>
                         </div>
