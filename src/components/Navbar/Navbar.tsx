@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FiMenu, FiX, FiHome, FiFilm, FiHeart, FiUser } from "react-icons/fi"; // Íconos de React Icons
+import { RiProfileFill } from "react-icons/ri";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,7 +23,7 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
 
-        {/* Menu Links - Desktop */}
+ 
         <ul className="hidden md:flex gap-8 text-sm font-medium text-white">
           <li>
             <Link
@@ -51,16 +52,24 @@ const Navbar: React.FC = () => {
               Favorites
             </Link>
           </li>
+          <li>
+            <Link
+              to="/about"
+              className="flex items-center gap-2 hover:text-yellow-500 transition duration-300"
+            >
+              <RiProfileFill size={18} />
+              About
+            </Link>
+          </li>
         </ul>
 
-        {/* User Icon */}
         <div className="hidden md:flex items-center">
           <button className="rounded-full bg-gray-800 p-2 hover:bg-gray-700 transition">
             <FiUser size={24} className="text-white" />
           </button>
         </div>
 
-        {/* Hamburger Menu - Mobile */}
+     
         <button
           onClick={toggleMenu}
           className="text-yellow-500 text-2xl md:hidden focus:outline-none"
@@ -69,7 +78,6 @@ const Navbar: React.FC = () => {
         </button>
       </div>
 
-      {/* Dropdown Menu for Mobile */}
       {isMenuOpen && (
         <div className="bg-gray-900 md:hidden">
           <ul className="flex flex-col items-center gap-4 py-6 text-white">
@@ -77,7 +85,7 @@ const Navbar: React.FC = () => {
               <Link
                 to="/"
                 className="flex items-center gap-2 text-lg hover:text-yellow-500 transition duration-300"
-                onClick={toggleMenu} // Close menu on link click
+                onClick={toggleMenu} 
               >
                 <FiHome size={20} />
                 Home
@@ -87,7 +95,7 @@ const Navbar: React.FC = () => {
               <Link
                 to="/movies"
                 className="flex items-center gap-2 text-lg hover:text-yellow-500 transition duration-300"
-                onClick={toggleMenu} // Close menu on link click
+                onClick={toggleMenu} 
               >
                 <FiFilm size={20} />
                 Movies
@@ -97,7 +105,7 @@ const Navbar: React.FC = () => {
               <Link
                 to="/favorites"
                 className="flex items-center gap-2 text-lg hover:text-yellow-500 transition duration-300"
-                onClick={toggleMenu} // Close menu on link click
+                onClick={toggleMenu} 
               >
                 <FiHeart size={20} />
                 Favorites

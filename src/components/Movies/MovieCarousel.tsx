@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
-import { Movie } from '../../interfaces/Movie'; // Importar el tipo Movie
+import { Movie } from '../../interfaces/Movie';
 
 interface MovieCarouselProps {
   movies: Movie[];
@@ -8,7 +8,7 @@ interface MovieCarouselProps {
 
 const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const itemsPerRow = 5;
+  const [itemsPerRow, setItemsPerRow] = useState(5); // Default for desktop
 
   const handleNext = () => {
     if (currentIndex + itemsPerRow < movies.length) {
@@ -22,9 +22,26 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
     }
   };
 
+  useEffect(() => {
+    // Adjust itemsPerRow based on screen width
+    const updateItemsPerRow = () => {
+      const width = window.innerWidth;
+      if (width < 640) setItemsPerRow(1); 
+      else if (width < 768) setItemsPerRow(2); 
+      else if (width < 1024) setItemsPerRow(3); 
+      else if (width < 1280) setItemsPerRow(4); 
+      else setItemsPerRow(5); 
+    };
+
+    updateItemsPerRow(); // Initial calculation
+    window.addEventListener('resize', updateItemsPerRow);
+
+    return () => window.removeEventListener('resize', updateItemsPerRow);
+  }, []);
+
   return (
     <div className="relative">
-      {/* Botón izquierdo */}
+      
       {currentIndex > 0 && (
         <button
           onClick={handlePrev}
@@ -34,7 +51,7 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
         </button>
       )}
 
-      {/* Carrusel */}
+ 
       <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-300"
@@ -43,12 +60,12 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
           }}
         >
           {movies.map((movie) => (
-            <div key={movie.id} className="flex-none w-1/5 px-2">
+            <div key={movie.id} className={`flex-none px-2`} style={{ width: `${100 / itemsPerRow}%` }}>
               <MovieCard
                 id={movie.id}
                 title={movie.title}
                 posterPath={movie.poster_path}
-                genre={movie.genre_ids.join(', ')} // Esto es un ejemplo; mapea los géneros según tu lógica
+                genre={movie.genre_ids.join(', ')}
                 rating={movie.vote_average}
                 language={movie.original_language.toUpperCase()}
                 format={movie.adult ? '18+' : 'PG'}
@@ -58,7 +75,7 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
         </div>
       </div>
 
-      {/* Botón derecho */}
+
       {currentIndex + itemsPerRow < movies.length && (
         <button
           onClick={handleNext}

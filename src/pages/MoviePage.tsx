@@ -6,6 +6,8 @@ import { MainLayout } from "../layouts/MainLayout";
 import { FiMenu } from "react-icons/fi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Movie } from "../interfaces/Movie";
+import { Helmet } from "react-helmet-async";
+
 const ITEMS_PER_SCROLL = 3;
 const ITEM_WIDTH = 192;
 
@@ -13,6 +15,7 @@ const MoviePage: React.FC = () => {
   const { genres, fetchGenres, moviesByGenre, fetchMoviesByGenre, searchMovies } =
     useMovies();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Movie[]>([]);
 
@@ -32,6 +35,7 @@ const MoviePage: React.FC = () => {
 
   const handleSearch = async (query: string) => {
     setSearchQuery(query);
+    setSelectedGenre(null); // Reset género seleccionado
     if (query.trim() === "") {
       setSearchResults([]);
       return;
@@ -40,8 +44,18 @@ const MoviePage: React.FC = () => {
     setSearchResults(results);
   };
 
+  const handleGenreSelect = (genreId: number) => {
+    setSelectedGenre(genreId);
+    setSearchQuery(""); // Limpiar búsqueda al seleccionar género
+  };
+
   return (
     <MainLayout>
+      <Helmet>
+        <title>Movies - MOVIESLOC</title>
+        <meta name="description" content="Explore movies by genres and enjoy trailers of your favorite movies." />
+        <meta name="keywords" content="movies, genres, trailers, watch, cinema" />
+      </Helmet>
       <div className="bg-gray-900 text-white min-h-screen flex flex-col md:flex-row">
         {/* Menú de hamburguesa */}
         <div className="md:hidden p-4 flex justify-between items-center bg-gray-800">
@@ -74,8 +88,10 @@ const MoviePage: React.FC = () => {
             {genres.map((genre) => (
               <li
                 key={genre.id}
-                className="text-gray-400 hover:text-white cursor-pointer border-b border-gray-600 py-2"
-                onClick={() => setSearchQuery("")} // Limpia la búsqueda al seleccionar un género
+                className={`cursor-pointer border-b border-gray-600 py-2 ${
+                  selectedGenre === genre.id ? "text-yellow-500" : "text-gray-400"
+                } hover:text-white`}
+                onClick={() => handleGenreSelect(genre.id)}
               >
                 {genre.name}
               </li>
@@ -107,29 +123,31 @@ const MoviePage: React.FC = () => {
             </div>
           ) : searchQuery && searchResults.length === 0 ? (
             <p>No results found for "{searchQuery}".</p>
+          ) : selectedGenre ? (
+            <div>
+              <h2 className="text-2xl font-bold mb-4">
+                {genres.find((g) => g.id === selectedGenre)?.name}
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {moviesByGenre[selectedGenre]?.map((movie) => (
+                  <MovieCard
+                    key={movie.id}
+                    id={movie.id}
+                    title={movie.title}
+                    posterPath={movie.poster_path}
+                    genre=""
+                    rating={movie.vote_average || 0}
+                    language={movie.original_language?.toUpperCase() || "N/A"}
+                    format={movie.adult ? "18+" : "PG"}
+                  />
+                ))}
+              </div>
+            </div>
           ) : (
             genres.map((genre) => (
               <section key={genre.id} className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">{genre.name}</h2>
                 <div className="relative">
-                  {/* Botón Izquierdo */}
-                  <button
-                    className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full z-10"
-                    onClick={() => {
-                      const container = document.getElementById(
-                        `carousel-${genre.id}`
-                      );
-                      const scrollAmount = ITEM_WIDTH * ITEMS_PER_SCROLL;
-                      container?.scrollBy({
-                        left: -scrollAmount,
-                        behavior: "smooth",
-                      });
-                    }}
-                  >
-                    ◀
-                  </button>
-
-                  {/* Carrusel */}
                   <div
                     id={`carousel-${genre.id}`}
                     className="flex space-x-4 overflow-x-auto custom-scrollbar scroll-smooth px-8"
@@ -148,23 +166,6 @@ const MoviePage: React.FC = () => {
                       </div>
                     ))}
                   </div>
-
-                  {/* Botón Derecho */}
-                  <button
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-700 text-white p-2 rounded-full z-10"
-                    onClick={() => {
-                      const container = document.getElementById(
-                        `carousel-${genre.id}`
-                      );
-                      const scrollAmount = ITEM_WIDTH * ITEMS_PER_SCROLL;
-                      container?.scrollBy({
-                        left: scrollAmount,
-                        behavior: "smooth",
-                      });
-                    }}
-                  >
-                    ▶
-                  </button>
                 </div>
               </section>
             ))

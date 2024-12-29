@@ -35,7 +35,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const openModal = (videoUrl: string) => setModalVideoUrl(videoUrl);
   const closeModal = () => setModalVideoUrl(null);
-  // Cargar favoritos desde Local Storage
+
   useEffect(() => {
     const savedFavorites = localStorage.getItem('favorites');
     if (savedFavorites) {
@@ -43,7 +43,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  // Guardar favoritos en Local Storage
+
   useEffect(() => {
     localStorage.setItem('favorites', JSON.stringify(favorites));
   }, [favorites]);
@@ -66,7 +66,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  // Fetch Genres
+
   const fetchGenres = useCallback(async () => {
     try {
       const response = await fetch('https://api.themoviedb.org/3/genre/movie/list', {
@@ -84,7 +84,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, []);
 
-  // Fetch Movies by Genre
+
   const fetchMoviesByGenre = useCallback(async (genreId: number) => {
     try {
       const response = await fetch(

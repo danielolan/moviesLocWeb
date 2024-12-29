@@ -4,6 +4,7 @@ import { Movie } from '../../interfaces/Movie';
 interface NewReleasesProps {
   movies: Movie[];
 }
+
 const NewReleases: React.FC<NewReleasesProps> = ({ movies }) => {
   return (
     <div className="py-12 px-6">
