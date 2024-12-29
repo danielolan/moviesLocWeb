@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 // Tipos
 interface Movie {
@@ -6,6 +6,9 @@ interface Movie {
   title: string;
   overview: string;
   poster_path: string;
+  vote_average?: number;
+  original_language?: string;
+  adult?: boolean;
 }
 
 interface Genre {
@@ -22,6 +25,8 @@ interface MovieContextProps {
   fetchGenres: () => Promise<void>;
   fetchMoviesByGenre: (genreId: number) => Promise<void>;
   toggleFavorite: (movie: Movie) => void;
+  searchMovies: (query: string) => Promise<Movie[]>; 
+
 }
 
 // Contexto
@@ -47,7 +52,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [favorites]);
 
   // Fetch Popular Movies
-  const fetchMovies = async () => {
+  const fetchMovies = useCallback(async () => {
     try {
       const response = await fetch('https://api.themoviedb.org/3/movie/popular', {
         method: 'GET',
@@ -58,13 +63,14 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       });
       const data = await response.json();
       setMovies(data.results);
+      console.log('Fetch popular movies successfully');
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
-  };
+  }, []);
 
   // Fetch Genres
-  const fetchGenres = async () => {
+  const fetchGenres = useCallback(async () => {
     try {
       const response = await fetch('https://api.themoviedb.org/3/genre/movie/list', {
         method: 'GET',
@@ -74,14 +80,15 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         },
       });
       const data = await response.json();
-      setGenres(data.genres); // [{ id: 28, name: 'Action' }, { id: 35, name: 'Comedy' }, ...]
+      setGenres(data.genres);
+      console.log('Fetch genres successfully');
     } catch (error) {
       console.error('Error fetching genres:', error);
     }
-  };
+  }, []);
 
   // Fetch Movies by Genre
-  const fetchMoviesByGenre = async (genreId: number) => {
+  const fetchMoviesByGenre = useCallback(async (genreId: number) => {
     try {
       const response = await fetch(
         `https://api.themoviedb.org/3/discover/movie?with_genres=${genreId}`,
@@ -95,19 +102,44 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       );
       const data = await response.json();
       setMoviesByGenre((prev) => ({ ...prev, [genreId]: data.results }));
+      console.log(`Fetch movies for genre ${genreId} successfully`);
     } catch (error) {
       console.error(`Error fetching movies for genre ${genreId}:`, error);
     }
-  };
-
-  // Toggle Favorite Movie
-  const toggleFavorite = (movie: Movie) => {
-    if (favorites.some((fav) => fav.id === movie.id)) {
-      setFavorites(favorites.filter((fav) => fav.id !== movie.id));
-    } else {
-      setFavorites([...favorites, movie]);
+  }, []);
+  const searchMovies = useCallback(async (query: string) => {
+    if (!query) return []; // Si no hay consulta, devuelve un array vacío
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+          query
+        )}&include_adult=false`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwZmUyNzNmYmExNDc5YmJlYmExYzVhZDU5NTU1YTEwNCIsIm5iZiI6MTczNTQzMjk1OS40MDk5OTk4LCJzdWIiOiI2NzcwOWFmZjdkMWJjODdkZTc2MTYyNDMiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.98C5bF4sqCJZQQIOXpDsU2_PnNEXrOFhcU_BO8BLWFc`,
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        }
+      );
+      const data = await response.json();
+      return data.results || [];
+    } catch (error) {
+      console.error('Error searching movies:', error);
+      return [];
     }
+  }, []);
+
+  const toggleFavorite = (movie: Movie) => {
+    setFavorites((prevFavorites) => {
+      if (prevFavorites.some((fav) => fav.id === movie.id)) {
+        return prevFavorites.filter((fav) => fav.id !== movie.id); 
+      } else {
+        return [...prevFavorites, movie];
+      }
+    });
   };
+  
 
   return (
     <MovieContext.Provider
@@ -120,6 +152,7 @@ export const MovieProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         fetchGenres,
         fetchMoviesByGenre,
         toggleFavorite,
+        searchMovies
       }}
     >
       {children}

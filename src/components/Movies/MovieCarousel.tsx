@@ -45,6 +45,7 @@ const MovieCarousel: React.FC<MovieCarouselProps> = ({ movies }) => {
           {movies.map((movie) => (
             <div key={movie.id} className="flex-none w-1/5 px-2">
               <MovieCard
+                id={movie.id}
                 title={movie.title}
                 posterPath={movie.poster_path}
                 genre={movie.genre_ids.join(', ')} // Esto es un ejemplo; mapea los géneros según tu lógica

@@ -5,16 +5,20 @@ import HomePage from './pages/HomePage';
 import MoviePage from './pages/MoviePage';
 import NavBar from './components/Navbar/Navbar';
 import { MovieProvider } from './context/MovieContext';
-
+import MovieDetailsPage from './pages/MovieDetailsPage';
+import FavoritesPage from './pages/FavoritePage';
 const App: React.FC = () => {
   return (
     <Router>
       <MovieProvider>
-        <NavBar />
+        
         <Routes>
           <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/movies" element={<MoviePage />} />
+          <Route path="/movies/:id" element={<MovieDetailsPage />} /> {/* Ruta dinámica */}
+          <Route path="/favorites" element={<FavoritesPage />} />
+
           
 
           
