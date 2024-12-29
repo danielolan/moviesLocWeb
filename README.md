@@ -46,7 +46,7 @@ Sigue estos pasos para ejecutar el proyecto localmente:
 
 2. **Cambia al Directorio del Proyecto:**
    ```bash
-   cd moviesloc-web
+   cd moviesLocWeb
    ```
 
 3. **Instala las Dependencias:**
