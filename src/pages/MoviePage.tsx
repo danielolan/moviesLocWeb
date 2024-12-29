@@ -8,8 +8,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Movie } from "../interfaces/Movie";
 import { Helmet } from "react-helmet-async";
 
-const ITEMS_PER_SCROLL = 3;
-const ITEM_WIDTH = 192;
+
 
 const MoviePage: React.FC = () => {
   const { genres, fetchGenres, moviesByGenre, fetchMoviesByGenre, searchMovies } =

@@ -1,5 +1,5 @@
 import { MainLayout } from "../layouts/MainLayout";
-import { FaReact, FaCloud, FaGithub, FaEnvelope, FaLinkedin, FaPhone } from "react-icons/fa";
+import { FaReact, FaCloud, FaGithub, FaEnvelope, FaLinkedin } from "react-icons/fa";
 
 const AboutPage = () => {
   return (
