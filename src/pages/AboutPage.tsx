@@ -67,7 +67,7 @@ const AboutPage = () => {
                 <li>
                   Cambiar al directorio del proyecto:
                   <code className="bg-gray-800 text-yellow-500 p-1 rounded block mt-2">
-                    cd moviesloc-web
+                    cd moviesLocWeb
                   </code>
                 </li>
                 <li>
