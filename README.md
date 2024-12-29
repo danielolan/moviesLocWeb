@@ -1,50 +1,132 @@
-# React + TypeScript + Vite
+# MOVIESLOC WEB
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**MOVIESLOC WEB** es una aplicación web desarrollada con **React**, diseñada para ofrecer una experiencia interactiva e intuitiva en la exploración de películas populares, géneros, y detalles de películas. Este proyecto utiliza la API de The Movie Database (TMDb) para obtener datos dinámicos y actualizados sobre películas.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Características
 
-## Expanding the ESLint configuration
+- **Exploración de Películas Populares:** Lista dinámica de las películas más populares.
+- **Clasificación por Géneros:** Permite navegar y filtrar películas según sus géneros.
+- **Sistema de Favoritos:** Posibilidad de guardar y gestionar tus películas favoritas.
+- **Detalles de Películas:** Información completa de cada película, incluyendo presupuesto, ingresos, compañías productoras y más.
+- **Diseño Responsivo:** Optimizado para móviles, tabletas y pantallas grandes.
+- **Optimización SEO:** Uso de `react-helmet-async` para generar meta tags dinámicos.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🛠️ Tecnologías Utilizadas
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Frontend
+- **React**
+- **React Router**
+- **Context API**
+- **TailwindCSS**
+- **Axios**
+
+### API
+- **The Movie Database (TMDb):**
+  - Para obtener datos dinámicos sobre películas y géneros.
+
+### Otras Herramientas
+- **Vite** para la construcción del proyecto.
+- **React Icons** para iconografía.
+- **Vercel** para despliegue en producción.
+
+---
+
+## 📦 Instalación
+
+Sigue estos pasos para ejecutar el proyecto localmente:
+
+1. **Clona el Repositorio:**
+   ```bash
+   git clone https://github.com/danielolan/moviesLocWeb.git
+   ```
+
+2. **Cambia al Directorio del Proyecto:**
+   ```bash
+   cd moviesloc-web
+   ```
+
+3. **Instala las Dependencias:**
+   ```bash
+   npm install
+   ```
+
+4. **Configura las Variables de Entorno:**
+   - Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+     ```env
+     VITE_API_KEY=YOUR_TMDB_API_KEY
+     ```
+
+5. **Inicia el Servidor de Desarrollo:**
+   ```bash
+   npm run dev
+   ```
+
+6. **Abre el Navegador:**
+   - Navega a `http://localhost:3000`.
+
+---
+
+## 🚀 Despliegue en Producción
+
+El proyecto está desplegado en **Vercel**. Puedes acceder a la versión en producción aquí:
+
+[https://moviesloc.vercel.app](https://moviesloc.vercel.app)
+
+---
+
+## 📚 Estructura del Proyecto
+
+```plaintext
+moviesloc-web/
+├── src/
+│   ├── components/         # Componentes reutilizables
+│   ├── context/            # Context API para manejar estados globales
+│   ├── layouts/            # Diseños base como MainLayout
+│   ├── pages/              # Páginas principales (Home, Movies, About, etc.)
+│   ├── styles/             # Archivos CSS/Tailwind personalizados
+│   ├── App.tsx             # Punto de entrada principal
+│   └── main.tsx            # Configuración de Vite
+├── public/                 # Recursos públicos (imágenes, videos, etc.)
+├── vite.config.ts          # Configuración de Vite
+└── package.json            # Configuración de dependencias y scripts
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+---
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 🌐 Funcionalidades
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Home
+- Película destacada seleccionada aleatoriamente con su imagen y descripción.
+- Carrusel de películas populares con navegación intuitiva.
+
+### Movies
+- Filtro por géneros para explorar películas clasificadas.
+- Búsqueda dinámica de películas por título.
+
+### Movie Details
+- Página específica de cada película con información detallada:
+  - Título, sinopsis, géneros, compañías productoras, ingresos, presupuesto y más.
+  - Botón para guardar en favoritos y enlace al sitio oficial.
+
+### Favorites
+- Sección para gestionar las películas guardadas como favoritas.
+
+### About
+- Información detallada del proyecto, tecnologías utilizadas y contacto.
+
+
+## 📞 Contacto
+
+Para consultas, soporte o sugerencias:
+
+- **Email:** da-olano@hotmail.com
+- **LinkedIn:** [https://www.linkedin.com/in/daniel-andres-olano-casta%C3%B1eda-081035292/](https://www.linkedin.com/in/daniel-andres-olano-casta%C3%B1eda-081035292/)
+- **GitHub:** [https://github.com/danielolan](https://github.com/danielolan)
+
+---
+
+¡Gracias por visitar MOVIESLOC WEB! 🎥🍿
